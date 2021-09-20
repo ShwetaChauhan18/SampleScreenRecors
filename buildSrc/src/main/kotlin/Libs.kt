@@ -11,11 +11,6 @@ object Libs {
     const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.APPCOMPAT}"
     const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
     const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"
-    const val NAVIGATION_FRAGMENT_KTX = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
-    const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
-    const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
-    const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
-    const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
     const val HILT = "com.google.dagger:hilt-android:${Versions.HILT}"
     const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.HILT_JETPACK}"
     const val HILT_DAGGER_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
@@ -43,16 +38,6 @@ object Libs {
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
     const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"
 
-    // Retrofit
-    const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"
-    const val RETROFIT_GSON = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT}"
-    const val OKHTTP3 = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP3}"
-    const val OKHTTP3_LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP3}"
-
-    // AppCenter
-    const val APPCENTER_ANALYTICS = "com.microsoft.appcenter:appcenter-analytics:${Versions.APPCENTER}"
-    const val APPCENTER_CRASHES = "com.microsoft.appcenter:appcenter-crashes:${Versions.APPCENTER}"
-
     // Timber
     const val TIMBER = "com.jakewharton.timber:timber:${Versions.TIMBER}"
 
@@ -64,15 +49,6 @@ object Libs {
 
     // Kotlin Reflect
     const val REFLECT = "reflect"
-
-    // Alerter
-    const val ALERTER = "com.tapadoo.android:alerter:${Versions.ALERTER}"
-
-    // Loading Button
-    const val LOADING_BUTTON = "br.com.simplepass:loading-button-android:${Versions.LOADING_BUTTON}"
-
-    // Shimmer
-    const val SHIMMER = "com.facebook.shimmer:shimmer:${Versions.SHIMMER}"
 
     // GLIDE
     const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"

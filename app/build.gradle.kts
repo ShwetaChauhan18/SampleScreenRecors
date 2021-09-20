@@ -77,12 +77,6 @@ dependencies {
     implementation(Libs.COROUTINES_CORE)
     implementation(Libs.COROUTINES_ANDROID)
 
-    // Retrofit
-    implementation(Libs.RETROFIT)
-    implementation(Libs.RETROFIT_GSON)
-    implementation(Libs.OKHTTP3)
-    implementation(Libs.OKHTTP3_LOGGING_INTERCEPTOR)
-
     // Gson
     implementation(Libs.GSON)
 
