@@ -41,8 +41,8 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-@Module
-@InstallIn(SingletonComponent::class)
+/*@Module
+@InstallIn(SingletonComponent::class)*/
 class PreferenceProvider(context: Context) {
 
     private val appContext = context.applicationContext
@@ -241,9 +241,9 @@ class PreferenceProvider(context: Context) {
             preference.edit().putString(KEY_ORDER_BY, value.name).apply()
         }
 
-    /*val sortOrderOptionsFlow: Flow<SortOrderOptions>
+    val sortOrderOptionsFlow: Flow<SortOrderOptions>
         get() = callbackFlow {
-            val listener = preference.OnSharedPreferenceChangeListener { _, _ ->
+            val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
                 Log.d("PreferenceHelper", "preferences changed")
                 offer(SortOrderOptions(sortBy, orderBy))
             }
@@ -254,7 +254,7 @@ class PreferenceProvider(context: Context) {
                 Log.d("PreferenceHelper", "unregistering listener")
                 preference.unregisterOnSharedPreferenceChangeListener(listener)
             }
-        }*/
+        }
 
 
     var recordAudio: Boolean

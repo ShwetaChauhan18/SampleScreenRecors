@@ -67,8 +67,9 @@ dependencies {
     
     // Hilt
     implementation(Libs.HILT)
+    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     kapt(Libs.HILT_DAGGER_COMPILER)
-    kapt(Libs.HILT_COMPILER)
+    //kapt(Libs.HILT_COMPILER)
 
     // Material
     implementation(Libs.MATERIAL)

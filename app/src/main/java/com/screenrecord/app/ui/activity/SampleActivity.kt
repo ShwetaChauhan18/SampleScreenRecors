@@ -1,49 +1,57 @@
 package com.screenrecord.app.ui.activity
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.projection.MediaProjectionManager
+import android.net.Uri
+import android.provider.MediaStore
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.screenrecord.app.R
 import com.screenrecord.app.base.BaseAppCompatActivity
+import com.screenrecord.app.data.Recording
 import com.screenrecord.app.databinding.ActivitySampleBinding
+import com.screenrecord.app.service.RecorderService
 import com.screenrecord.app.service.RecorderState
 import com.screenrecord.app.service.UriType
+import com.screenrecord.app.ui.recordings.RecordingListActivity
+import com.screenrecord.app.utils.ACTION_TOGGLE_RECORDING
 import com.screenrecord.app.utils.PreferenceProvider
+import com.screenrecord.app.utils.REQUEST_DOCUMENT_TREE
 import com.screenrecord.app.utils.SCREEN_RECORD_REQUEST_CODE
-import com.screenrecord.app.viewmodel.SampleViewModel
+import com.screenrecord.app.utils.extension.launchActivity
+import com.screenrecord.app.viewmodel.RecordingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class SampleActivity : BaseAppCompatActivity<ActivitySampleBinding, SampleViewModel>() {
+class SampleActivity : BaseAppCompatActivity<ActivitySampleBinding, RecordingsViewModel>() {
 
-    @Inject
     lateinit var preferenceProvider: PreferenceProvider
 
     private lateinit var recorderState: LiveData<RecorderState.State>
+
+    //protected lateinit var selectionTracker: SelectionTracker<Recording>
 
     private val isRecording: Boolean
         get() = recorderState.value?.run {
             this != RecorderState.State.STOPPED
         } ?: false
 
-    override val viewModel: SampleViewModel by viewModels()
+    override val viewModel: RecordingsViewModel by viewModels()
 
     override fun getLayoutResId(): Int = R.layout.activity_sample
 
-    /*private val userAdapter = UserAdapter()
-    private val paginationListener = RecyclerPaginationListener {
-        viewModel.loadMoreUsers()
-    }*/
 
     override fun initialize() {
         super.initialize()
-        preferenceProvider.apply {
+        preferenceProvider = PreferenceProvider(this).apply {
             if (ContextCompat.checkSelfPermission(
                     this@SampleActivity,
                     Manifest.permission.RECORD_AUDIO
@@ -70,14 +78,47 @@ class SampleActivity : BaseAppCompatActivity<ActivitySampleBinding, SampleViewMo
                 }
             }
         }
+
+        recorderState = viewModel.recorderState
+
+        // Respond to app shortcut
+        intent.action?.let {
+            when (it) {
+                ACTION_TOGGLE_RECORDING -> if (RecorderState.State.STOPPED == recorderState.value)
+                    startRecording()
+                else {
+                    stopRecording()
+                    finish()
+                }
+            }
+        }
+
+        binding.btnRecord.setOnClickListener {
+            when {
+                //selectionTracker.hasSelection() -> selectionTracker.clearSelection()
+                isRecording -> stopRecording()
+                else -> {
+                    if (preferenceProvider.saveLocation == null) {
+                        showChooseTreeUri()
+                    } else {
+                        startRecording()
+                    }
+                }
+            }
+        }
+
+        binding.btnList.setOnClickListener {
+            launchActivity<RecordingListActivity>()
+        }
     }
 
-    override fun initializeObservers(viewModel: SampleViewModel) {
+    override fun initializeObservers(viewModel: RecordingsViewModel) {
         super.initializeObservers(viewModel)
+    }
 
-        /*viewModel.onNewUserList.observeEvent(this) {
-            userAdapter.addAllItem(ArrayList(it))
-        }*/
+    private fun stopRecording() {
+        binding.btnRecord.background = ContextCompat.getDrawable(this, R.drawable.ic_play)
+        RecorderService.stop(this)
     }
 
     private fun startRecording() {
@@ -88,5 +129,61 @@ class SampleActivity : BaseAppCompatActivity<ActivitySampleBinding, SampleViewMo
             projectionManager.createScreenCaptureIntent(),
             SCREEN_RECORD_REQUEST_CODE
         )
+        binding.btnRecord.background = ContextCompat.getDrawable(this, R.drawable.ic_pause)
+    }
+
+    private fun showChooseTreeUri() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.choose_location_dialog_title)
+            .setPositiveButton(R.string.choose_location_action) { _, _ ->
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                intent.putExtra(
+                    "android.provider.extra.INITIAL_URI",
+                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                )
+                startActivityForResult(intent, REQUEST_DOCUMENT_TREE)
+            }
+            .create().show()
+    }
+
+    private fun onTreeUriResult(resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
+            val uri: Uri = data!!.data!!
+            contentResolver.apply {
+                takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+                persistedUriPermissions.filter { it.uri == uri }.apply {
+                    if (isNotEmpty()) {
+                        PreferenceProvider(this@SampleActivity).setSaveLocation(uri, UriType.SAF)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            SCREEN_RECORD_REQUEST_CODE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    RecorderService.start(this, resultCode, data)
+                }
+
+                intent.action?.takeIf { it == ACTION_TOGGLE_RECORDING }?.let {
+                    finish()
+                }
+            }
+            REQUEST_DOCUMENT_TREE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    onTreeUriResult(resultCode, data)
+                }
+                if (preferenceProvider.saveLocation != null) {
+                    startRecording()
+                }
+            }
+        }
     }
 }

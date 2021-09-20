@@ -1,20 +1,4 @@
-/*
- * Copyright (C) 2019 Indrit Bashkimi.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.ibashkimi.screenrecorder.recordings
+package com.screenrecord.app.ui.adapter
 
 import android.net.Uri
 import android.text.format.DateUtils
@@ -25,8 +9,8 @@ import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ibashkimi.screenrecorder.data.Recording
-import com.ibashkimi.screenrecorder.databinding.ItemRecordingBinding
+import com.screenrecord.app.data.Recording
+import com.screenrecord.app.databinding.ItemRecordingBinding
 import com.screenrecord.app.ui.recordings.RecordingDetails
 import java.text.DecimalFormat
 import kotlin.math.log10
@@ -71,7 +55,6 @@ class RecordingViewHolder(private val binding: ItemRecordingBinding) :
         this.recording = recording
         this.pos = position
         binding.apply {
-            foreground.isVisible = isSelected
             thumbnail.load(recording.uri)
             title.text = recording.title
             duration.text = toTime(recording.duration.toLong())

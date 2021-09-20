@@ -17,3 +17,5 @@ package com.screenrecord.app.utils
 
 const val PREFERENCE: String = "PREFERENCE"
 const val SCREEN_RECORD_REQUEST_CODE = 0x01
+const val ACTION_TOGGLE_RECORDING = "com.screenrecord.app.TOGGLE_RECORDING"
+const val REQUEST_DOCUMENT_TREE = 22

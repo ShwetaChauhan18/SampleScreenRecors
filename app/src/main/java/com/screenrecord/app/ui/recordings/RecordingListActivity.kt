@@ -7,13 +7,15 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
-import com.ibashkimi.screenrecorder.recordings.RecordingAdapter
+import com.screenrecord.app.ui.adapter.RecordingAdapter
 import com.screenrecord.app.R
 import com.screenrecord.app.base.BaseAppCompatActivity
 import com.screenrecord.app.data.Recording
 import com.screenrecord.app.databinding.ActivityRecordingBinding
 import com.screenrecord.app.viewmodel.RecordingsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecordingListActivity :
     BaseAppCompatActivity<ActivityRecordingBinding, RecordingsViewModel>() {
 
@@ -44,7 +46,7 @@ class RecordingListActivity :
                     return@withOnItemActivatedListener true
                 }
                 .build()
-            savedInstanceState?.let { selectionTracker.onRestoreInstanceState(it) }
+            //savedInstanceState?.let { selectionTracker.onRestoreInstanceState(it) }
             recordingsAdapter.selectionTracker = selectionTracker
         }
     }

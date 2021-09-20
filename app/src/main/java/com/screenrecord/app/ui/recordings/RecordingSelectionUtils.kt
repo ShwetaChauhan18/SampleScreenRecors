@@ -1,11 +1,11 @@
-
-
 package com.screenrecord.app.ui.recordings
 
 import android.view.MotionEvent
+import androidx.recyclerview.selection.ItemDetailsLookup
+import androidx.recyclerview.selection.ItemKeyProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.ibashkimi.screenrecorder.recordings.RecordingAdapter
-import com.ibashkimi.screenrecorder.recordings.RecordingViewHolder
+import com.screenrecord.app.ui.adapter.RecordingAdapter
+import com.screenrecord.app.ui.adapter.RecordingViewHolder
 import com.screenrecord.app.data.Recording
 
 class RecordingDetails(private val adapterPosition: Int, val recording: Recording) :
