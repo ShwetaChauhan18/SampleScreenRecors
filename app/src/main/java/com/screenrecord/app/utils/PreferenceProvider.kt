@@ -31,9 +31,6 @@ import androidx.lifecycle.LiveData
 import com.screenrecord.app.R
 import com.screenrecord.app.service.SaveUri
 import com.screenrecord.app.service.UriType
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

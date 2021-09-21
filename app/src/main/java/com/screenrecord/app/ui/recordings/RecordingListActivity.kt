@@ -2,24 +2,21 @@ package com.screenrecord.app.ui.recordings
 
 import android.content.Intent
 import android.view.View
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
-import com.screenrecord.app.ui.adapter.RecordingAdapter
 import com.screenrecord.app.R
 import com.screenrecord.app.base.BaseAppCompatActivity
 import com.screenrecord.app.data.Recording
 import com.screenrecord.app.databinding.ActivityRecordingBinding
+import com.screenrecord.app.ui.adapter.RecordingAdapter
 import com.screenrecord.app.viewmodel.RecordingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RecordingListActivity :
+open class RecordingListActivity :
     BaseAppCompatActivity<ActivityRecordingBinding, RecordingsViewModel>() {
-
-    private lateinit var messageView: TextView
 
     private lateinit var recordingsAdapter: RecordingAdapter
 
@@ -46,7 +43,6 @@ class RecordingListActivity :
                     return@withOnItemActivatedListener true
                 }
                 .build()
-            //savedInstanceState?.let { selectionTracker.onRestoreInstanceState(it) }
             recordingsAdapter.selectionTracker = selectionTracker
         }
     }
@@ -69,22 +65,9 @@ class RecordingListActivity :
         startActivity(intent)
     }
 
-    protected fun onDataLoaded(data: List<Recording>) {
-        messageView.visibility = if (data.isEmpty()) View.VISIBLE else View.GONE
+    private fun onDataLoaded(data: List<Recording>) {
+        binding.messageNoVideo.visibility = if (data.isEmpty()) View.VISIBLE else View.GONE
         recordingsAdapter.updateData(data)
     }
-
-    protected fun rename(recording: Recording, newName: String) {
-        viewModel.rename(recording, newName)
-    }
-
-    protected fun delete(recording: Recording) {
-        viewModel.deleteRecording(recording)
-    }
-
-    protected fun delete(recordings: List<Recording>) {
-        viewModel.deleteRecordings(recordings)
-    }
-
 
 }

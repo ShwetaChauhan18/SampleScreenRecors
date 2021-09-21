@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false" />
+
     <application
         android:name=".TestScreenRecordApp"
         android:allowBackup="true"
@@ -18,10 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.activity.SampleActivity"
-            android:noHistory="true">
+        <activity android:name=".ui.activity.SampleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -37,7 +41,7 @@
             android:foregroundServiceType="mediaProjection"
             tools:targetApi="q" />
 
-        <activity android:name=".ui.recordings.RecordingListActivity"/>
+        <activity android:name=".ui.recordings.RecordingListActivity" />
 
     </application>
 

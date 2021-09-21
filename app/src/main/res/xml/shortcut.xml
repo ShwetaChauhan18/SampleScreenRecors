@@ -25,9 +25,9 @@
         android:shortcutShortLabel="@string/shortcut_short_label"
         tools:targetApi="n_mr1">
         <intent
-            android:action="com.ibashkimi.screenrecorder.TOGGLE_RECORDING"
-            android:targetClass="com.ibashkimi.screenrecorder.MainActivity"
-            android:targetPackage="com.ibashkimi.screenrecorder" />
+            android:action="com.screenrecord.app.TOGGLE_RECORDING"
+            android:targetClass="com.screenrecord.app.MainActivity"
+            android:targetPackage="com.screenrecord.app" />
     </shortcut>
     <!-- Specify more shortcuts here. -->
 </shortcuts>

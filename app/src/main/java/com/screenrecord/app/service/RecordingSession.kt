@@ -43,21 +43,25 @@ class RecordingSession(
 
     fun start(intent: Intent): Boolean {
         return if (state == RecorderState.State.STOPPED) {
-            intent.getParcelableExtra<Intent?>(RecorderService.RECORDER_INTENT_DATA)?.let { intentData ->
-                val result =
-                    intent.getIntExtra(RecorderService.RECORDER_INTENT_RESULT, Activity.RESULT_OK)
-                val newRecorder = Recorder(context)
-                if (newRecorder.start(result, intentData, options)) {
-                    startTime = System.currentTimeMillis()
-                    state = RecorderState.State.RECORDING
-                    recorder = newRecorder
-                    true
-                } else {
-                    state = RecorderState.State.STOPPED
-                    //recorder = null
-                    false
-                }
-            } ?: false
+            intent.getParcelableExtra<Intent?>(RecorderService.RECORDER_INTENT_DATA)
+                ?.let { intentData ->
+                    val result =
+                        intent.getIntExtra(
+                            RecorderService.RECORDER_INTENT_RESULT,
+                            Activity.RESULT_OK
+                        )
+                    val newRecorder = Recorder(context)
+                    if (newRecorder.start(result, intentData, options)) {
+                        startTime = System.currentTimeMillis()
+                        state = RecorderState.State.RECORDING
+                        recorder = newRecorder
+                        true
+                    } else {
+                        state = RecorderState.State.STOPPED
+                        //recorder = null
+                        false
+                    }
+                } ?: false
         } else {
             true
         }

@@ -16,7 +16,6 @@ import java.text.DecimalFormat
 import kotlin.math.log10
 import kotlin.math.pow
 
-
 class RecordingAdapter(items: List<Recording> = emptyList()) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -83,9 +82,6 @@ class RecordingViewHolder(private val binding: ItemRecordingBinding) :
     }
 
     private fun toTime(millis: Long): String {
-        /*if (Build.VERSION.SDK_INT >= 26) {
-            return LocalTime.ofSecondOfDay(millis / 1000).toString()
-        }*/
         val hours: Long = (millis / (1000 * 60 * 60))
         val minutes = (millis % (1000 * 60 * 60) / (1000 * 60))
         val seconds = (millis % (1000 * 60 * 60) % (1000 * 60) / 1000)
