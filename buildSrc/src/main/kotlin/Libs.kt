@@ -12,7 +12,6 @@ object Libs {
     const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE}"
     const val LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE}"
     const val HILT = "com.google.dagger:hilt-android:${Versions.HILT}"
-    const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.HILT_JETPACK}"
     const val HILT_DAGGER_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
     const val HILT_COMPILER = "androidx.hilt:hilt-compiler:${Versions.HILT_JETPACK}"
 
